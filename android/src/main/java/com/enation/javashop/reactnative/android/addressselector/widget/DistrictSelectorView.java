@@ -387,7 +387,7 @@ public class DistrictSelectorView<T extends BaseRagionModel>  extends Dialog {
             getReactContext().runOnUiQueueThread(new Runnable() {
                 @Override
                 public void run() {
-                    DistrictSelectorView.super.show();
+                    showSelf();
                     ScaleAnimation sAnima = new ScaleAnimation(0, 1, 0, 1, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f );//横向放大5倍，纵向放大5倍
                     sAnima.setDuration(500);
                     parent.startAnimation(sAnima);
@@ -396,6 +396,15 @@ public class DistrictSelectorView<T extends BaseRagionModel>  extends Dialog {
         }else{
             Utils.toastL(getContext(),"DistrictSelectorView配置出错，请检查参数！");
         }
+    }
+
+    private void showSelf(){
+        context.getCurrentActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                DistrictSelectorView.super.show();
+            }
+        });
     }
 
     /**
@@ -418,7 +427,7 @@ public class DistrictSelectorView<T extends BaseRagionModel>  extends Dialog {
 
                     @Override
                     public void onAnimationEnd(Animation animation) {
-                        DistrictSelectorView.super.dismiss();
+                        dismissSelf();
                     }
 
                     @Override
@@ -427,6 +436,15 @@ public class DistrictSelectorView<T extends BaseRagionModel>  extends Dialog {
                     }
                 });
                 parent.startAnimation(sAnima);
+            }
+        });
+    }
+
+    private  void  dismissSelf(){
+        context.getCurrentActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                DistrictSelectorView.super.dismiss();
             }
         });
     }

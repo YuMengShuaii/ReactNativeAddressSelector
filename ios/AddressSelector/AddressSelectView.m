@@ -197,10 +197,10 @@
     }else if(dataType.integerValue==3){
         region=nil;
          town=nil;
-        setData(per.id,self);
+        setData(per.id.integerValue,self);
     }else if(dataType.integerValue==4){
         town=nil;
-        setData(city.id,self);
+        setData(city.id.integerValue,self);
     }
      [self setHint];
 }

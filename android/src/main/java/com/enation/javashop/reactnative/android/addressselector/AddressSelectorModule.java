@@ -52,82 +52,87 @@ public class AddressSelectorModule extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void create(final Callback callback){
-        addressSelector = new DistrictSelectorView<>(getCurrentActivity(),getReactApplicationContext());
-        addressSelector.setRegionListener(new DistrictSelectorView.RegionListener<Region>() {
+        getCurrentActivity().runOnUiThread(new Runnable() {
             @Override
-            public void setPickData(Region previousData) {
-                getReactApplicationContext()
-                        .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
-                        .emit(AddressDataEvent,previousData == null ?0:previousData.getId());
-            }
+            public void run() {
+                addressSelector = new DistrictSelectorView<>(getCurrentActivity(),getReactApplicationContext());
+                addressSelector.setRegionListener(new DistrictSelectorView.RegionListener<Region>() {
+                    @Override
+                    public void setPickData(Region previousData) {
+                        getReactApplicationContext()
+                                .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
+                                .emit(AddressDataEvent,previousData == null ?0:previousData.getId());
+                    }
 
-            @Override
-            public void getResult(Region per, Region city, Region region, Region town) {
-                String perStr = "";
-                String cityStr = "";
-                String regionStr = "";
-                String townStr = "";
-                try {
-                    if (per !=null){
-                        perStr = new JSONStringer().object()
-                                .key("id")
-                                .value(per.getId().intValue())
-                                .key("name")
-                                .value(per.getName())
-                                .key("type")
-                                .value(per.getType())
-                                .key("parentId")
-                                .value(per.getParentId().intValue())
-                                .endObject()
-                                .toString();
-                    }
-                    if (city !=null){
-                        cityStr = new JSONStringer().object()
-                                .key("id")
-                                .value(city.getId().intValue())
-                                .key("name")
-                                .value(city.getName())
-                                .key("type")
-                                .value(city.getType())
-                                .key("parentId")
-                                .value(city.getParentId().intValue())
-                                .endObject()
-                                .toString();
-                    }
-                    if (region !=null){
-                        regionStr = new JSONStringer().object()
-                                .key("id")
-                                .value(region.getId().intValue())
-                                .key("name")
-                                .value(region.getName())
-                                .key("type")
-                                .value(region.getType())
-                                .key("parentId")
-                                .value(region.getParentId().intValue())
-                                .endObject()
-                                .toString();
-                    }
-                    if (town !=null){
-                        townStr = new JSONStringer().object()
-                                .key("id")
-                                .value(town.getId().intValue())
-                                .key("name")
-                                .value(town.getName())
-                                .key("type")
-                                .value(town.getType())
-                                .key("parentId")
-                                .value(town.getParentId().intValue())
-                                .endObject()
-                                .toString();
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+                    @Override
+                    public void getResult(Region per, Region city, Region region, Region town) {
+                        String perStr = "";
+                        String cityStr = "";
+                        String regionStr = "";
+                        String townStr = "";
+                        try {
+                            if (per !=null){
+                                perStr = new JSONStringer().object()
+                                        .key("id")
+                                        .value(per.getId().intValue())
+                                        .key("name")
+                                        .value(per.getName())
+                                        .key("type")
+                                        .value(per.getType())
+                                        .key("parentId")
+                                        .value(per.getParentId().intValue())
+                                        .endObject()
+                                        .toString();
+                            }
+                            if (city !=null){
+                                cityStr = new JSONStringer().object()
+                                        .key("id")
+                                        .value(city.getId().intValue())
+                                        .key("name")
+                                        .value(city.getName())
+                                        .key("type")
+                                        .value(city.getType())
+                                        .key("parentId")
+                                        .value(city.getParentId().intValue())
+                                        .endObject()
+                                        .toString();
+                            }
+                            if (region !=null){
+                                regionStr = new JSONStringer().object()
+                                        .key("id")
+                                        .value(region.getId().intValue())
+                                        .key("name")
+                                        .value(region.getName())
+                                        .key("type")
+                                        .value(region.getType())
+                                        .key("parentId")
+                                        .value(region.getParentId().intValue())
+                                        .endObject()
+                                        .toString();
+                            }
+                            if (town !=null){
+                                townStr = new JSONStringer().object()
+                                        .key("id")
+                                        .value(town.getId().intValue())
+                                        .key("name")
+                                        .value(town.getName())
+                                        .key("type")
+                                        .value(town.getType())
+                                        .key("parentId")
+                                        .value(town.getParentId().intValue())
+                                        .endObject()
+                                        .toString();
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
 
-                callback.invoke(perStr,cityStr,regionStr,townStr);
+                        callback.invoke(perStr,cityStr,regionStr,townStr);
+                    }
+                });
+                addressSelector.show();
             }
         });
-        addressSelector.show();
     }
 
     @ReactMethod

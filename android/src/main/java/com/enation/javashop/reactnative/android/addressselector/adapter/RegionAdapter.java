@@ -51,6 +51,7 @@ public class RegionAdapter<T extends BaseRagionModel> extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+
         ViewHolder viewHolder =null;
         if (convertView==null){
             viewHolder = new ViewHolder();
@@ -61,6 +62,7 @@ public class RegionAdapter<T extends BaseRagionModel> extends BaseAdapter {
             viewHolder = (ViewHolder) convertView.getTag();
         }
            viewHolder.picker_item_tv.setText(getItem(position).getPickerName());
+
         return convertView;
     }
 
