@@ -1,6 +1,6 @@
 {
   "name": "react-native-addressselector",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "地区选择器",
   "main": "index.js",
   "scripts": {
